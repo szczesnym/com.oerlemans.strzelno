@@ -14,7 +14,7 @@
     function getItems() {
       var apiRoot = 'http://localhost:8080/dm/';
 	   	var requestUrl = apiRoot + '?searchProdOrder='+$("#order_id").val();
-        $("#itemSelect").empty();
+        $("#item").empty();
           $.ajax({
             url: requestUrl,
             method: 'GET',
@@ -23,7 +23,7 @@
           })
           .done(function(res) {
             res.forEach( function(el) {
-              $("#itemSelect").append('<option value="'+el+'">'+el+'</option>');
+              $("#item").val(el);
             })
               
           })
@@ -54,7 +54,7 @@
     <form
         class="datatable__row datatable__row--add"
         method="POST"
-        action="http://localhost:8080/"
+        action="http://localhost:8080/dm/"
         data-task-add-form
     >
       <fieldset class="datatable__row-section datatable__row-section--input-section">
@@ -68,9 +68,7 @@
         <label class="datatable__input-label">
          Materiał
         </label>
-            <select class="form-control" id="itemSelect">
-              <option>Brak danych</option>
-            </select>
+            <input type=text name="item" id="item" placeholder="Artykuł" required minlength="2">
       </fieldset>
 
       <fieldset class="datatable__row-section datatable__row-section--input-section">
