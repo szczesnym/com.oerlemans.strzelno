@@ -10,6 +10,30 @@
   <title>Etykiety</title>
   
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&subset=latin-ext" rel="stylesheet">
+  <script>
+    function getItems() {
+      var apiRoot = 'http://localhost:8080/dm/';
+	   	var requestUrl = apiRoot + '?searchProdOrder='+$("#order_id").val();
+        $("#itemSelect").empty();
+          $.ajax({
+            url: requestUrl,
+            method: 'GET',
+            dataType: "json"
+            
+          })
+          .done(function(res) {
+            res.forEach( function(el) {
+              $("#itemSelect").append('<option value="'+el+'">'+el+'</option>');
+            })
+              
+          })
+          .fail(function(XMLHttpRequest, textStatus, errorThrown) {
+            $("#itemSelect").append('<option value="BrakDanych">BrakDanych</option>');
+              }
+            );
+          }
+
+  </script>
 </head>
 
 <body>
@@ -37,9 +61,18 @@
         <label class="datatable__input-label">
          Zlecenie
         </label>
-        <input type="text" name="order_id" placeholder="Numer zlecenia" required minlength="3">
+        <input type="text" name="order_id" id="order_id" placeholder="Numer zlecenia" required minlength="3" onblur="getItems()">
       </fieldset>
       <br>
+      <fieldset class="datatable__row-section datatable__row-section--input-section">
+        <label class="datatable__input-label">
+         Materiał
+        </label>
+            <select class="form-control" id="itemSelect">
+              <option>Brak danych</option>
+            </select>
+      </fieldset>
+
       <fieldset class="datatable__row-section datatable__row-section--input-section">
         <label class="datatable__input-label">
           Waga
