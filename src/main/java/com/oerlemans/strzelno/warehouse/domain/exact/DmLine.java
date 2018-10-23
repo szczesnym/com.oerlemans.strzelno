@@ -27,8 +27,14 @@ public class DmLine {
     @Column(name = "DocumentNumber")
     private int headDocumentNumber;
 
+    @Column(name = "DocumentType")
+    private String documentType;
+
     @Column(name = "ItemCode")
     private String itemNumber;
+
+    @Column(name ="project")
+    private String project;
 
     @Column(name = "HeaderGUID", columnDefinition="uniqueidentifier")
     private String headerGuid;

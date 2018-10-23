@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface DmPlLineRepository extends CrudRepository<DmLine, Integer> {
     List<DmLine> findByheaderGuid(String headerGuid);
+    List<DmLine> findByDocumentTypeAndProject(String documentType, String project);
 }

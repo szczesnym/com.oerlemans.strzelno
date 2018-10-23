@@ -14,25 +14,91 @@
     function getItems() {
       var apiRoot = 'http://localhost:8080/dm/';
 	   	var requestUrl = apiRoot + '?searchProdOrder='+$("#order_id").val();
-        $("#item").empty();
-          $.ajax({
-            url: requestUrl,
-            method: 'GET',
-            dataType: "json"
-            
-          })
-          .done(function(res) {
-            res.forEach( function(el) {
-              $("#item").val(el);
-            })
+      if($("#order_id").val().length > 2)
+        {
+          $("#item").empty();
+            $.ajax({
+              url: requestUrl,
+              method: 'GET',
+              dataType: "json"
               
-          })
-          .fail(function(XMLHttpRequest, textStatus, errorThrown) {
-            $("#itemSelect").append('<option value="BrakDanych">BrakDanych</option>');
-              }
-            );
-          }
+            })
+            .done(function(res) {
+              res.forEach( function(el) {
+                $("#item").append('<option value="'+el+'">'+el+'</option>');;
+              })
+                
+            })
+            .fail(function(XMLHttpRequest, textStatus, errorThrown) {
+              $("#itemSelect").append('<option value="BrakDanych">BrakDanych</option>');
+                }
+              );
+        }
+      }
 
+      function handleTaskSubmitRequest() {
+        
+
+        var order_id = $("#order_id").val();
+        var item = $("#item").val();
+        var weight = $("#weight").val();
+
+        var requestUrl = apiRoot + 'tasks';
+        var apiRoot = 'http://localhost:8080/dm/';
+
+        //$("#itemDesc").htlm = "";
+        //clearItemDesc();
+        $.ajax({
+          url: apiRoot,
+          method: 'POST',
+          processData: false,
+          contentType: "application/json; charset=utf-8",
+          dataType: 'json',
+          data: JSON.stringify({
+            workOrder: order_id,
+            itemId: item,
+            weight: weight
+          }),
+          success : function(data) {
+            if(data == 0) alert("Błąd tworzenia nowej palety");
+          else alert("Utworzono paletę o numrze:"+data);
+          },
+          complete: function() {
+            $("#order_id").val("");
+            $("#item").empty();
+            $("#itemDesc").empty();
+            $("#weight").val("");  
+            $("#order_id").focus();          
+          }
+        });
+      }
+
+      function getItemDesc() {
+        var item = $("#item").val();
+        var apiRoot = 'http://localhost:8080/item/?itemNumber='+item;
+        //clearItemDesc()
+        $.ajax({
+          url: apiRoot,
+          method: 'GET',
+          processData: false,
+          contentType: "application/json; charset=utf-8",
+          dataType: 'json'})
+        .done(function(el) {
+                  if(el.itemDesc != "") {
+                    alert(el.itemDesc);
+                    $("#itemDesc").html(el.itemDesc);
+                    $("#createPaletButton").romveAttr("disbled");
+                  }
+              });
+      }
+
+      function clearItemDesc() {
+            //$("#itemDesc").htlm("");
+      }
+
+
+
+    //$('[data-task-add-form]').on('submit', handleTaskSubmitRequest);
   </script>
 </head>
 
@@ -65,22 +131,25 @@
       </fieldset>
       <br>
       <fieldset class="datatable__row-section datatable__row-section--input-section">
-        <label class="datatable__input-label">
+        <label class="datatable__input-label" >
          Materiał
         </label>
-            <input type=text name="item" id="item" placeholder="Artykuł" required minlength="2">
+        <select name="item" id="item" onchange="getItemDesc()">
+        </select> 
+          <h3 id="itemDesc" name="itemDesc"></h3>
       </fieldset>
 
       <fieldset class="datatable__row-section datatable__row-section--input-section">
         <label class="datatable__input-label">
           Waga
         </label>
-        <input type=text name="weight" placeholder="Waga" required minlength="2">
+        <input type=text name="weight" id ="weight" placeholder="Waga" required minlength="2">
       </fieldset>
     <br>
     
       <fieldset class="datatable__row-section datatable__row-section--button-section">
-        <button type="submit" data-task-add-button class="datatable__button">Twórz etykietę</button>
+        <button type="button" data-task-add-button class="datatable__button" onClick="handleTaskSubmitRequest()" 
+          id="createPaletButton" name="createPaletButton">Twórz etykietę</button>
       </fieldset>
     </form>
   </section>

@@ -1,14 +1,13 @@
 package com.oerlemans.strzelno.warehouse.domain.palet;
 
+import com.oerlemans.strzelno.warehouse.mapper.PaletMapper;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "palets")
@@ -18,10 +17,6 @@ import java.util.Date;
 
 
 public class Palet {
-    @Transient
-    @Autowired
-    private Environment env;
-
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
@@ -47,7 +42,7 @@ public class Palet {
     @Column(name ="count")
     private double count;
 
-    @Column(name ="content")
+    @Column(name ="content_id")
     private String mfgItem;
 
     @Column(name ="description")
@@ -65,5 +60,33 @@ public class Palet {
 
     @Column(name ="workOrder")
     private String workOrder;
+
+    @Column(name = "_active")
+    private final int active =1;
+
+    @Column(name = "toBePrinter")
+    private final int print =1;
+
+    @Override
+    public String toString() {
+        return "Palet{" +
+                "id=" + id +
+                ", item_id='" + item_id + '\'' +
+                ", systemId='" + systemId + '\'' +
+                ", bestBefore='" + bestBefore + '\'' +
+                ", weight=" + weight +
+                ", lot='" + lot + '\'' +
+                ", paletId=" + paletId +
+                ", count=" + count +
+                ", mfgItem='" + mfgItem + '\'' +
+                ", description='" + description + '\'' +
+                ", engDescription='" + engDescription + '\'' +
+                ", eanCode='" + eanCode + '\'' +
+                ", stamp='" + stamp + '\'' +
+                ", workOrder='" + workOrder + '\'' +
+                ", active=" + active +
+                ", print=" + print +
+                '}';
+    }
 
 }
