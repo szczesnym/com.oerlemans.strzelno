@@ -11,38 +11,41 @@
  
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&subset=latin-ext" rel="stylesheet">
   <script type="text/javascript">
-      function handleTaskSubmitRequest() {
-        var item = $("#item_id").val();
-        var weight = $("#weight").val();
-        var apiRoot = 'http://localhost:8080/item/';
+      function handleSubmitRequest() {
+        var palet = $("#palet_no").val();
+        var apiRoot = 'http://localhost:8080/palet/';
         
-        $("#createPaletButton").attr("disbaled", "disbaled");
-        $("#itemDesc").html("");
         $.ajax({
           url: apiRoot,
           method: 'POST',
           processData: false,
-          contentType: "application/json; charset=utf-8",
-          dataType: 'json',
-          data: JSON.stringify({
-            itemCode: item,
-            weight: weight
-          }),
+          contentType: "application/x-www-form-urlencoded",
+          dataType: 'text',
+          data: $("#forma").serialize(),
           success : function(data) {
-            if(data == 0) alert("Błąd tworzenia nowej palety");
-            else alert("Utworzono paletę o numrze:"+data);
+            //alert(data);
+            if(data == "true") alert("Przekazano do ponownego wydruku");
+            else alert("Błąd - powtórz operację");
           },
           complete: function() {
-            $("#item_id").val("");
-            $("#weight").val("");  
-            $("#item_id").focus();          
+                      $("#item_label").html("");
+                      $("#itemId").html("");
+                      $("#itemDesc").html("");
+                      $("#itemDesc_label").html("");
+                      $("#weight").html("");
+                      $("#weight_label").html("");
+                      $("#created").html("");
+                      $("#created_label").html("");
+                      document.getElementById("submit").style.display = "none";
+
           }
         });
       }
 
       function getPalet() {
-        var palet = $("#palet_id").val();
+        var palet = $("#palet_no").val();
         var apiRoot = 'http://localhost:8080/palet/?palet_no='+palet;
+
           $.ajax({
             url: apiRoot,
             method: 'GET',
@@ -60,13 +63,15 @@
                       $("#created").html(el.stamp);
                       $("#created_label").html("Utworzono:");
                       $("#createPaletButton").show();
+                      $("#submit").show();
+                      document.getElementById("submit").style.display = "block";
                     }
                 }
           });
 
       }
 
-      $("#createPaletButton").hide();
+
   </script>
 </head>
 
@@ -89,21 +94,23 @@
   <section class="datatable">
     <h2>Ponowny wydruk etykiety</h2>
     <form
+        id = "forma", name ="forma"
         class="datatable__row datatable__row--add"
         method="POST"
-        action="http://localhost:8080/palet"
+        action="http://localhost:8080/palet/"
         data-task-add-form
     >
       <fieldset class="datatable__row-section datatable__row-section--input-section">
         <label class="datatable__input-label">
          Numer palety
         </label>
-        <input type="text" name="palet_id" id="palet_id" placeholder="Numer palety" required minlength="3">
+        <input type="text" name="palet_no" id="palet_no" placeholder="Numer palety" required minlength="3">
       </fieldset>
       <br>
     <br>
       <fieldset class="datatable__row-section datatable__row-section--button-section">
         <button type="button" data-task-add-button class="datatable__button" onClick="getPalet()" id="createPaletButton" name="createPaletButton">Szukaj palety</button>
+        <button type="button" class="datatable__button"  id="submit" name="submit" style="display:none;" onClick="handleSubmitRequest()">Drukuj palete</button>
       </fieldset>
     </form>
     <section>

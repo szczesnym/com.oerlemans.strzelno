@@ -62,7 +62,7 @@ public class Palet {
     private final int active = 1;
 
     @Column(name = "toBePrinter")
-    private final int print = 1;
+    private int print = 1;
 
     @Override
     public String toString() {

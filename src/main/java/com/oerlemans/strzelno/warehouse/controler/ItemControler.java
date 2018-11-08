@@ -31,10 +31,10 @@ public class ItemControler {
 
     @RequestMapping(method = RequestMethod.POST, value = "/", consumes = APPLICATION_JSON_VALUE)
     public int postpaletFromItem(@RequestBody ItemDto itemDto) {
-        LOGGER.info("*********Palet from item, item:" + itemDto.getItemCode() + ", weight:" + itemDto.getWeight());
+        LOGGER.info("Palet from item, item:" + itemDto.getItemCode() + ", weight:" + itemDto.getWeight());
         try {
             Palet palet = paletMapper.mapPaletDtoToPalet(new PaletDto(itemDto));
-            LOGGER.info("*********PALET:" + palet);
+            LOGGER.info("PALET:" + palet);
             paletRepository.save(palet);
             palet.setPaletId(paletMapper.generatePaletNumberFromNumber(palet.getId()));
             paletRepository.save(palet);
