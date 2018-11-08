@@ -51,7 +51,6 @@
           dataType: 'json'})
         .done(function(el) {
                   if(el.itemDesc != "") {
-                    alert(el.itemDesc);
                     $("#itemDesc").html(el.itemDesc);
                     $("#createPaletButton").romveAttr("disbled");
                   }
@@ -75,8 +74,12 @@
     <a class="nav-link active" href="index-item.html">Etykieta z numeru artykułu</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="index-order.html">Etykieta ze zlecenia </a>
+    <a class="nav-link" href="index-order.html">Ponowny wydruk etykiety </a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="index-reprint.html">RePrint etykiety</a>
+  </li>
+
 </ul>
 <main class="crud container">
   <section class="datatable">
@@ -92,7 +95,7 @@
          Artykuł
         </label>
         <input type="text" name="item_id" id="item_id" placeholder="Numer artykułu" required minlength="3" onblur="getItemDesc()" onFocus="clearItemDesc()">
-        <h3 id="itemDesc" name="itemDesc">342</h3>
+        <h3 id="itemDesc" name="itemDesc"></h3>
       </fieldset>
       <br>
       <fieldset class="datatable__row-section datatable__row-section--input-section">

@@ -25,4 +25,10 @@ public class FrontEndController {
         return "index-order";
     }
 
+    @RequestMapping("/index-reprint.html")
+    public String rePrintIndex(Map<String, Object> model) {
+        return "index-reprint";
+    }
+
+
 }

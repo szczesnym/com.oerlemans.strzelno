@@ -1,11 +1,8 @@
 package com.oerlemans.strzelno.warehouse.domain.palet;
 
-import com.oerlemans.strzelno.warehouse.mapper.PaletMapper;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 
 import javax.persistence.*;
 
@@ -18,16 +15,16 @@ import javax.persistence.*;
 
 public class Palet {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "item_id")
     private String item_id;
 
-    @Column(name="system_id")
+    @Column(name = "system_id")
     private String systemId; //
 
-    @Column(name= "best_before")
+    @Column(name = "best_before")
     private String bestBefore;
 
     @Column(name = "weight")
@@ -36,36 +33,36 @@ public class Palet {
     @Column(name = "lot")
     private String lot;
 
-    @Column(name ="palet_id")
+    @Column(name = "palet_id")
     private int paletId;
 
-    @Column(name ="count")
+    @Column(name = "count")
     private double count;
 
-    @Column(name ="content_id")
+    @Column(name = "content_id")
     private String mfgItem;
 
-    @Column(name ="description")
+    @Column(name = "description")
     private String description;
 
-    @Column(name ="engDescription")
+    @Column(name = "engDescription")
     private String engDescription;
 
-    @Column(name ="eanCode")
+    @Column(name = "eanCode")
     private String eanCode;
 
     @Column(name = "stamp")
     private String stamp;
     //TimeStamp - to be gereted by SQL triger onInsert
 
-    @Column(name ="workOrder")
+    @Column(name = "workOrder")
     private String workOrder;
 
     @Column(name = "_active")
-    private final int active =1;
+    private final int active = 1;
 
     @Column(name = "toBePrinter")
-    private final int print =1;
+    private final int print = 1;
 
     @Override
     public String toString() {

@@ -4,4 +4,6 @@ import com.oerlemans.strzelno.warehouse.domain.palet.Palet;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PaletRepository extends JpaRepository<Palet, Integer> {
+       Palet getById(int id);
+       Palet getByPaletId(int paletId);
 }

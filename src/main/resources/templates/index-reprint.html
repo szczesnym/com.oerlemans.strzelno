@@ -40,28 +40,33 @@
         });
       }
 
-      function getItemDesc() {
-        var item = $("#item_id").val();
-        var apiRoot = 'http://localhost:8080/item/?itemNumber='+item;
-        $.ajax({
-          url: apiRoot,
-          method: 'GET',
-          processData: false,
-          contentType: "application/json; charset=utf-8",
-          dataType: 'json'})
-        .done(function(el) {
-                  if(el.itemDesc != "") {
-                    $("#itemDesc").html(el.itemDesc);
-                    $("#createPaletButton").romveAttr("disbled");
-                  }
-              });
+      function getPalet() {
+        var palet = $("#palet_id").val();
+        var apiRoot = 'http://localhost:8080/palet/?palet_no='+palet;
+          $.ajax({
+            url: apiRoot,
+            method: 'GET',
+            processData: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json', 
+            success: function(el) {
+                    if(el.itemDesc != "") {
+                      $("#item_label").html("Artykuł:");
+                      $("#itemId").html(el.item_id);
+                      $("#itemDesc").html(el.description);
+                      $("#itemDesc_label").html("Materiał:");
+                      $("#weight").html(el.weight);
+                      $("#weight_label").html("Waga:");
+                      $("#created").html(el.stamp);
+                      $("#created_label").html("Utworzono:");
+                      $("#createPaletButton").show();
+                    }
+                }
+          });
+
       }
 
-      function clearItemDesc() {
-            $("#itemDesc").htlm("");
-      }
-
-      $("#createPaletButton").attr("disbaled", "disbaled");
+      $("#createPaletButton").hide();
   </script>
 </head>
 
@@ -71,45 +76,56 @@
 <h1 class="kodilla-heading kodilla-heading--main">Wydruk etykiet paletowych</h1>
 <ul class="nav nav-tabs">
   <li class="nav-item">
-    <a class="nav-link active" href="index-item.html">Etykieta z numeru artykułu</a>
+    <a class="nav-link" href="index-item.html">Etykieta z numeru artykułu</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="index-order.html">Ponowny wydruk etykiety </a>
+    <a class="nav-link" href="index-order.html">Etykieta za zlecenia</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="index-reprint.html">RePrint etykiety</a>
+    <a class="nav-link active" href="index-reprint.html">Ponowny wydruk etykiety</a>
   </li>
-
 </ul>
 <main class="crud container">
   <section class="datatable">
-    <h2>Etykieta z numeru artykułu</h2>
+    <h2>Ponowny wydruk etykiety</h2>
     <form
         class="datatable__row datatable__row--add"
         method="POST"
-        action="http://localhost:8080/"
+        action="http://localhost:8080/palet"
         data-task-add-form
     >
       <fieldset class="datatable__row-section datatable__row-section--input-section">
         <label class="datatable__input-label">
-         Artykuł
+         Numer palety
         </label>
-        <input type="text" name="item_id" id="item_id" placeholder="Numer artykułu" required minlength="3" onblur="getItemDesc()" onFocus="clearItemDesc()">
-        <h3 id="itemDesc" name="itemDesc"></h3>
+        <input type="text" name="palet_id" id="palet_id" placeholder="Numer palety" required minlength="3">
       </fieldset>
       <br>
-      <fieldset class="datatable__row-section datatable__row-section--input-section">
-        <label class="datatable__input-label">
-          Waga
-        </label>
-        <input type=text name="weight" id="weight" placeholder="Waga" required minlength="2">
-      </fieldset>
     <br>
-    
       <fieldset class="datatable__row-section datatable__row-section--button-section">
-        <button type="button" data-task-add-button class="datatable__button" onClick="handleTaskSubmitRequest()" id="createPaletButton" name="createPaletButton">Twórz etykietę</button>
+        <button type="button" data-task-add-button class="datatable__button" onClick="getPalet()" id="createPaletButton" name="createPaletButton">Szukaj palety</button>
       </fieldset>
     </form>
+    <section>
+      <table border=0>
+        <tr>
+          <td id="item_label" name="item_label"></td>
+          <td><h4 id="itemId" name="itemId"></h4></td>
+        </tr>
+        <tr>
+          <td id="itemDesc_label" name="itemDesc_label"></td>
+          <td><h4 id="itemDesc" name="itemDesc"></h4></td>
+        </tr>
+        <tr>
+          <td id="weight_label" name="weight_label"></td>
+          <td><h4 id="weight" name="weight"></h4></td>
+        </tr>
+        <tr>
+          <td id="created_label" name="created_label"></td>
+          <td><h4 id="created" name="created"></h4></td>
+        </tr>
+      </table>
+    </section>
   </section>
 
 </body>
